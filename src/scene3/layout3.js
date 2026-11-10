@@ -12,33 +12,33 @@
 export const YEARS = [
   {
     year: 2021,
-    key: 'Beginning',
-    lines: ['New city', 'New chapter', 'Bigger dreams'],
+    key: 'Foundation',
+    lines: ['Computer Science', 'Core Architecture', 'Bigger Dreams'],
   },
   {
     year: 2022,
     key: 'Exploration',
-    lines: ['Learned design', 'Found direction'],
+    lines: ['Data Structures', 'Database Systems', 'System Design'],
   },
   {
     year: 2023,
-    key: 'Practice',
-    lines: ['Built skills', 'Made projects', 'Kept going'],
+    key: 'Enterprise',
+    lines: ['Mainframe Foundations', 'Batch Architecture', 'Mission Critical Logic'],
   },
   {
     year: 2024,
-    key: 'Growth',
-    lines: ['Real projects', 'Real people', 'Real learning'],
+    key: 'MCA & Mastery',
+    lines: ['MCA at V.S.M (8.3 CGPA)', 'COBOL, JCL, VSAM, CICS', 'Hands-on z/OS Training'],
   },
   {
     year: 2025,
-    key: 'Opportunities',
-    lines: ['Collaborated', 'Solved problems', 'Stepped up'],
+    key: 'AI Innovation',
+    lines: ['AI Smart Voting System', 'IBM Mainframe Copilot', 'RAG & Claude Agents'],
   },
   {
     year: 2026,
-    key: 'Next chapter',
-    lines: ['Bigger goals', 'More impact', 'Still designing'],
+    key: 'Next Horizon',
+    lines: ['High-Availability', 'Enterprise Engineering', 'Driving Innovation'],
   },
 ];
 

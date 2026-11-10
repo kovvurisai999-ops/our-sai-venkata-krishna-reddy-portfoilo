@@ -1,7 +1,7 @@
 /* ==========================================================================
    The finale — the closing shot.
    Deep black + dark red + crimson + cream. The furnace canvas sits behind a
-   giant GIREESH set in real type (Anton, stretched to the reference's
+   giant REDDY set in real type (Impact, stretched to the reference's
    ultra-tall poster proportions, wearing the extracted grunge), the man's
    canvas rides in front of the title, and the editorial captions + the quiet
    functional row hold the edges.
@@ -74,6 +74,8 @@
   object-position: 50% 42%;
   display: block;
   user-select: none;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
 }
 .fin__frame2::after {
   content: '';

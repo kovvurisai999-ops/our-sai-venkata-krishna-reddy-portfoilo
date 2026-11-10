@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GIREESH — hero
+   KRISHNA — hero
    The artwork itself (background, wordmark, the three people) is drawn on the
    WebGL canvas. Everything in this file is the furniture layered over it:
    header, welcome strip, chips, arrows, dot grids.
@@ -70,6 +70,13 @@ html, body {
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+canvas {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* nothing may paint before the sequence is ready to start on true black */
@@ -530,4 +537,43 @@ html.is-booting .hdr { opacity: 0; }
     transition-duration: .01ms !important;
     transition-delay: 0ms !important;
   }
+}
+
+/* ==========================================================================
+   BGM Toggle Button
+   ========================================================================== */
+.bgm-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  width: 48px;
+  height: 48px;
+  border: 2px solid rgba(222, 27, 28, 0.6);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease;
+}
+.bgm-toggle:hover {
+  border-color: var(--ink-hot);
+  box-shadow: 0 0 20px rgba(222, 27, 28, 0.45);
+  transform: scale(1.08);
+}
+.bgm-toggle.is-playing {
+  border-color: var(--ink);
+  box-shadow: 0 0 14px rgba(222, 27, 28, 0.35);
+  animation: bgm-pulse 2s ease-in-out infinite;
+}
+.bgm-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+@keyframes bgm-pulse {
+  0%, 100% { box-shadow: 0 0 14px rgba(222, 27, 28, 0.35); }
+  50% { box-shadow: 0 0 28px rgba(222, 27, 28, 0.55); }
 }

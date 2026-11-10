@@ -76,12 +76,13 @@ async function main() {
 
   const mk = (name, loopFade) => {
     const c = manifest.clips[name];
+    const cb = '?v=sai_hq_' + Date.now();
     return new Clip({
       src: [
-        { url: MEDIA + c.webm, type: 'video/webm' },
-        { url: MEDIA + c.mp4, type: 'video/mp4' },
+        { url: MEDIA + c.webm + cb, type: 'video/webm' },
+        { url: MEDIA + c.mp4 + cb, type: 'video/mp4' },
       ],
-      poster: MEDIA + c.poster,
+      poster: MEDIA + c.poster + cb,
       w: c.w, h: c.h, track: c.track, loopFade,
     });
   };
@@ -102,13 +103,13 @@ async function main() {
   // the later scenes build while the hero plays, so scrolling into them is
   // instant; each one runs only while it is actually on screen
   initUniverse().then((u) => { app.universe = u; })
-    .catch((e) => console.warn('[gireesh] universe unavailable:', e.message));
+    .catch((e) => console.warn('[krishna] universe unavailable:', e.message));
   initChrono().then((c) => { app.chrono = c; })
-    .catch((e) => console.warn('[gireesh] chrono unavailable:', e.message));
+    .catch((e) => console.warn('[krishna] chrono unavailable:', e.message));
   initGallery().then((g) => { app.gallery = g; })
-    .catch((e) => console.warn('[gireesh] gallery unavailable:', e.message));
+    .catch((e) => console.warn('[krishna] gallery unavailable:', e.message));
   initFinale().then((f) => { app.finale = f; })
-    .catch((e) => console.warn('[gireesh] finale unavailable:', e.message));
+    .catch((e) => console.warn('[krishna] finale unavailable:', e.message));
 
   if (!playing) return awaitGesture();
   begin();
@@ -239,7 +240,7 @@ function degrade(reason) {
   boot.classList.add('is-done');
   for (const [, name] of CUES) root.classList.add(`is-${name}`);
   document.querySelector('.stage-wrap').insertAdjacentHTML('afterbegin',
-    '<div class="fallback"><p>GIREESH</p>'
+    '<div class="fallback"><p>KRISHNA</p>'
     + '<small>Welcome to my world</small></div>');
 }
 
@@ -319,5 +320,96 @@ window.__shot = async (name = 'shot', at = null) => {
 
 // live tuning of the letter surface while matching the reference art
 window.__tune = (k, v) => { app.stage[k] = v; return app.stage[k]; };
+
+// ---- smooth scroll navigation for header + mobile menu links ----------------
+document.querySelectorAll('[data-nav]').forEach((a) => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const href = a.getAttribute('href');
+    if (href === '#') {
+      // Home - scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    // update active state
+    document.querySelectorAll('[data-nav]').forEach((n) => n.classList.remove('is-active'));
+    document.querySelectorAll(`[data-nav][href="${href}"]`).forEach((n) => n.classList.add('is-active'));
+    // close mobile menu if open
+    if (root.classList.contains('is-menu')) setMenu(false);
+  });
+});
+
+// highlight the active nav link on scroll using IntersectionObserver
+const navSections = ['universe', 'chrono', 'gallery', 'fin'];
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      document.querySelectorAll('[data-nav]').forEach((n) => {
+        const href = n.getAttribute('href');
+        n.classList.toggle('is-active', href === `#${id}`);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+navSections.forEach((id) => {
+  const el = document.getElementById(id);
+  if (el) navObserver.observe(el);
+});
+
+// ---- Background Music (BGM) -------------------------------------------------
+const bgm = new Audio('public/media/bgm.mp3');
+bgm.loop = true;
+bgm.volume = 0.35;
+bgm.preload = 'auto';
+let bgmPlaying = false;
+
+// Create a floating music toggle button
+const bgmBtn = document.createElement('button');
+bgmBtn.className = 'bgm-toggle';
+bgmBtn.setAttribute('aria-label', 'Toggle background music');
+bgmBtn.innerHTML = '<span class="bgm-icon">🔇</span>';
+document.body.appendChild(bgmBtn);
+
+function startBGM() {
+  bgm.play().then(() => {
+    bgmPlaying = true;
+    bgmBtn.querySelector('.bgm-icon').textContent = '🔊';
+    bgmBtn.classList.add('is-playing');
+  }).catch(() => {});
+}
+
+function stopBGM() {
+  bgm.pause();
+  bgmPlaying = false;
+  bgmBtn.querySelector('.bgm-icon').textContent = '🔇';
+  bgmBtn.classList.remove('is-playing');
+}
+
+bgmBtn.addEventListener('click', () => {
+  if (bgmPlaying) stopBGM();
+  else startBGM();
+});
+
+// Auto-start BGM on first user interaction
+let bgmAutoStarted = false;
+function autoStartBGM() {
+  if (bgmAutoStarted) return;
+  bgmAutoStarted = true;
+  startBGM();
+}
+document.addEventListener('click', autoStartBGM, { once: true });
+document.addEventListener('scroll', autoStartBGM, { once: true });
+document.addEventListener('touchstart', autoStartBGM, { once: true });
+
+// Pause BGM when tab is hidden
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && bgmPlaying) bgm.pause();
+  else if (document.visibilityState === 'visible' && bgmPlaying) bgm.play();
+});
 
 main().catch((e) => degrade(e.message));

@@ -68,7 +68,7 @@ export function computeLayout(w, h) {
   return {
     w,
     h,
-    dpr: Math.min(window.devicePixelRatio || 1, 2),
+    dpr: Math.max(window.devicePixelRatio || 1, 2),
     portrait,
     narrow,
     word,

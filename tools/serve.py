@@ -21,6 +21,7 @@ TYPES = {
     ".json": "application/json; charset=utf-8",
     ".webm": "video/webm",
     ".mp4": "video/mp4",
+    ".mp3": "audio/mpeg",
     ".woff2": "font/woff2",
     ".png": "image/png",
     ".jpg": "image/jpeg",

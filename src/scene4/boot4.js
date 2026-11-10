@@ -67,7 +67,7 @@ export async function initGallery() {
   function place() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.max(window.devicePixelRatio || 1, 2);
     const f = gallery.resize(w, h, dpr);
     portrait = w / h < 0.75;
     section.classList.toggle('is-portrait', portrait);

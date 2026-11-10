@@ -45,9 +45,10 @@ export async function initFinale() {
   if (frame2 && frame2Img) {
     // canonical home first, then the naming pattern the reference images
     // use; while the image is absent each miss logs one benign 404
+    const cb = '?v=sai_' + Date.now();
     const candidates = [
-      'footer%202nd%20image.jpg',
-      'public/fin/frame2.jpg',
+      'public/fin/frame2.jpg' + cb,
+      'footer%202nd%20image.jpg' + cb,
       'Footer%20image%202.jpg',
     ];
     (function tryNext(i) {
@@ -68,7 +69,7 @@ export async function initFinale() {
   let resizeId;
   function place() {
     fin.resize(window.innerWidth, window.innerHeight,
-      Math.min(window.devicePixelRatio || 1, 2));
+      Math.max(window.devicePixelRatio || 1, 2));
     section.classList.toggle('is-portrait',
       window.innerWidth / window.innerHeight < 0.75);
   }

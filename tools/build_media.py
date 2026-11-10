@@ -29,7 +29,7 @@ TEX = os.path.join(ROOT, "public", "tex")
 # sources stay in assets_src/ and their presets stay in matte.py, so re-enabling
 # either is a one-line change plus a rebuild.
 CLIPS = [
-    ("hero", "v1.mp4", "v1", 720, 1280, 0, 240),
+    ("hero", "v1_sai.mp4", "v1", 720, 1280, 0, 240),
     # ("letter_g", "v2.mp4", "v2", 540, 960, 0, 240),
     # ("letter_h", "v3.mov", "v3", 540, 960, 0, 190),
 ]
