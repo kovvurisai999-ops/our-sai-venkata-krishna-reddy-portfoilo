@@ -1,25 +1,53 @@
-# our-sai-venkata-krishna-reddy-portfoilo
+# GIREESH — cinematic portfolio
 
-Cinematic Portfolio of **Sai Venkata Krishna Reddy Kovvuri** — IBM Mainframe Developer, AI Systems Engineer & Full-Stack Architect.
+Two scenes so far, both WebGL, no frameworks and no build step.
 
-WebGL-powered, 60 FPS hardware accelerated, 8K ultra-high resolution cinematic experience with custom neural face swapping and audio experience.
+**Scene 1 — the opening.** Black screen → the man walks out of the dark → the
+GIREESH wordmark materialises behind him → chips, arrows and dots snap into
+place → header draws itself in → the composition settles and breathes.
 
-## ✨ Features
+**Scene 2 — the creative universe.** The supplied film, played as the section:
+the visitor scrolls into it, it arrives from black, and a veil breathes over
+the 10-second loop point so the wrap is never seen as a cut. Decoding stops
+whenever the section is off screen.
 
-- **Scene 01 — Hero:** Luxury black suit walking video in seamless transparent WebGL canvas with neural AI face alignment, custom "KRISHNA" Anton typography with distressed texture, and dynamic ember rim lighting.
-- **Scene 02 — The Creative Universe:** Enterprise Mainframe, Cloud, and AI Systems film loop.
-- **Scene 03 — Journey Through Time:** Interactive 2021–2026 timeline clock with responsive angle tracking, education, and career milestones.
-- **Scene 04 — Projects Showcase:** 12 interactive project showcases with live modal details, GitHub links, and tech stack tags.
-- **Scene 06 — Grand Finale & Contact:** Towering "REDDY" wordmark in atmospheric crimson smoke, custom face-swapped Ferrari frame, and direct contact channels.
-- **Background Music (BGM):** Embedded cinematic soundtrack ("Aane Wala Star") with floating sound wave toggle and auto-play interaction.
-- **High Performance:** 60 FPS WebGL rendering with high-DPI scaling for 4K/8K displays.
+**Scene 3 — the time machine.** A warm black room → the timeline rail draws
+itself → a giant clock resolves → six year cards arrive → the floor mechanism
+turns → and then the visitor takes control: moving the cursor swings the clock
+hand across 2021–2026, and whichever year it points at lights up.
 
-## 🚀 How to Run Locally
+## Run it
 
 ```bash
 python tools/serve.py 5173
 ```
-Then open http://localhost:5173 in any modern browser.
+
+then open http://localhost:5173. Any static file server works in production —
+there is nothing to compile.
+
+Review helpers (dev only):
+
+- `?t=3.2` starts the timeline at 3.2s; `?t=end` jumps to the settled hero.
+- `window.__shot('name')` in the console saves the current canvas to `shots/`.
+- `window.__tune('wear', 0.5)` live-adjusts letter distressing
+  (`wear`, `wearGain`, `wearScale`).
+
+## How the transparent video works (the part people ask about)
+
+The original footage is a person on a white studio backdrop. The white is
+removed **offline** by `tools/matte.py` (border-connected background modelling,
+fractional-coverage estimation for hair, motion-adaptive temporal smoothing),
+and the result is packed into a normal H.264/VP9 video that is **double width:
+colour on the left half, alpha matte on the right half**.
+
+At runtime the WebGL compositor samples both halves and rebuilds true
+per-pixel transparency. This works in every browser — including Safari, which
+supports neither WebM alpha nor Windows-encodable HEVC alpha — and it means
+there is never a white rectangle, ever.
+
+The compositor also does the integration work: film grain, vignette, a red
+ember behind the type, a contact shadow cast onto the letters, red rim light
+gated to the rows where the wordmark actually passes behind him, and a
 dissolve at the video's loop point so the cut is never visible.
 
 ## Replacing the videos later
